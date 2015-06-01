@@ -119,7 +119,7 @@ Item {
                 "icon": 'go-home',
                 "label": 'Home',
                 "command": '\
-                    . ~/.config/basher-plasmoid/vars_env.sh;\
+                    . ~/.config/basher-plasmoid/varset.sh;\
                     printf "<b>$ENV_USER@$ENV_HOST</b> ($ENV_BITS) up $ENV_UPTIME";\
                     printf "<br>$ENV_OS $ENV_ARCH $ENV_OS_VERSION";\
                     ',
@@ -131,10 +131,9 @@ Item {
                 "icon": 'cpu',
                 "label": 'CPU',
                 "command": '\
-                CORES=`cat /proc/cpuinfo | grep -m 1 "cpu cores" | awk \'{print $4}\'`;\
-                VCORES=`cat /proc/stat | grep cpu | wc -l`; let "VCORES=VCORES-1";\
-                printf "$CORES ($VCORES) x "; cat /proc/cpuinfo | grep -m 1 \'model name\' | sed -e \'s/.*: //\';\
-                A=($(sed -n \'2,5p\' /proc/stat));B0=$((${A[1]} + ${A[2]} + ${A[3]} + ${A[4]}));B1=$((${A[12]} + ${A[13]} + ${A[14]} + ${A[15]}));B2=$((${A[23]} + ${A[24]} + ${A[25]} + ${A[26]}));B3=$((${A[34]} + ${A[35]} + ${A[36]} + ${A[37]}));sleep 0.5;C=($(sed -n \'2,5p\' /proc/stat));D0=$((${C[1]} + ${C[2]} + ${C[3]} + ${C[4]}));D1=$((${C[12]} + ${C[13]} + ${C[14]} + ${C[15]}));D2=$((${C[23]} + ${C[24]} + ${C[25]} + ${C[26]}));D3=$((${C[34]} + ${C[35]} + ${C[36]} + ${C[37]}));E0=$(echo "scale=1; (100 * ($B0 - $D0 - ${A[4]}   + ${C[4]})  / ($B0 - $D0))" | bc);E1=$(echo "scale=1; (100 * ($B1 - $D1 - ${A[15]}  + ${C[15]}) / ($B1 - $D1))" | bc);E2=$(echo "scale=1; (100 * ($B2 - $D2 - ${A[26]}  + ${C[26]}) / ($B2 - $D2))" | bc);E3=$(echo "scale=1; (100 * ($B3 - $D3 - ${A[37]}  + ${C[37]}) / ($B3 - $D3))" | bc); printf "Load $E0%% $E1%% $E2%% $E3%%"',
+                . ~/.config/basher-plasmoid/varset.sh;\
+                printf "$CPU_CORES ($CPU_VIRTUAL_CORES) x $CPU_MODEL_NAME\n";\
+                printf "Load total %.1f%% cores: %s" "$CPU_LOAD_TOTAL" "$CPU_LOAD_CORES"',
                 "schedule": 1500
             }
             list.push(co)
