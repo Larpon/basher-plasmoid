@@ -56,6 +56,182 @@ Item {
         }
     }
     
+    ColumnLayout {
+        
+        width: parent.width
+        height: parent.height
+        /*
+        Label {
+            Layout.fillWidth: true
+
+            text: i18n("Commands")
+        }
+        */
+        ListModel { 
+            id: commandModel
+            onCountChanged: {
+                var o = get((count-1))
+                console.log('Count',count,'object',o)
+            }
+            
+            Component.onCompleted: {
+                var json = plasmoid.configuration.commandList
+                if(json != '') {
+                    var cmdList = JSON.parse(json)
+                    for(var i in cmdList) {
+                        var commandObject = cmdList[i]
+                        addCommand(commandObject)
+                    }
+                }
+                
+            }
+        }
+        
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            ScrollView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                frameVisible: true
+
+                //enabled: (filterMode.currentIndex > 0)
+    
+                ListView {
+                    width: parent.width
+                    
+                    model: commandModel
+
+                    delegate: RowLayout {
+                        width: parent.width
+                       
+                        Label {
+                            text: model.label
+                        }
+                        
+                        Text {
+                            id: commandText
+
+                            Layout.fillWidth: true
+                            
+                            text: model.command
+                        }
+                        
+                        PlasmaComponents.Button {
+                            id: removeCommandButton
+
+                            iconSource: "list-remove"
+                            
+                            onClicked: removeCommand(model.index)
+                        }
+                    }
+                }
+                
+            }
+
+        }
+        
+        
+        RowLayout {
+            Layout.fillWidth: true
+            
+            Item {
+                
+                width: addCommandButton.width
+                height: labelTextField.height / 1.9
+            }
+            
+            Item {
+                Layout.alignment: Qt.AlignTop
+                width: labelTextField.width
+                Label {
+                    text: i18n("Label")
+                }
+            }
+            
+            Item {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                Label {
+                    text: i18n("Command")
+                }
+            }
+            
+        }
+        
+        RowLayout {
+            Layout.fillWidth: true
+            
+            PlasmaComponents.Button {
+                id: addCommandButton
+
+                iconSource: "list-add"
+                
+                onClicked: {
+                    if(commandTextField.text != '') {
+                        var co = Utility.defaultCommandObject()
+                        
+                        co.label = labelTextField.text
+                        co.command = commandTextField.text
+                        
+                        addCommand( co )
+                    }
+                }
+            }
+            
+            TextField {
+                id: labelTextField
+
+                placeholderText: i18n("ex: ls.home")
+            }
+            
+            TextField {
+                id: commandTextField
+
+                Layout.fillWidth: true
+
+                placeholderText: i18n("ex: ls ~")
+            }
+            
+            
+            
+        }
+        
+    }
+}
+
+// Old command config
+/*
+Item {
+    id: root
+    width: parent.width
+    height: parent.height
+
+    property string cfg_commandList: ""
+    property string currentIcon: "run-build"
+    property int currentSchedule: 5000
+    
+    function addCommand(object) {
+        commandModel.append( object )
+        
+        var t = []
+        if(cfg_commandList != '')
+            t = JSON.parse(cfg_commandList)
+        t.push(object)
+        cfg_commandList = JSON.stringify(t)
+    }
+    
+    function removeCommand(index) {
+        if(commandModel.count > 0) {
+            commandModel.remove(index)
+            var t = JSON.parse(cfg_commandList)
+            t.splice(index,1)
+            cfg_commandList = JSON.stringify(t)
+        }
+    }
+    
     KQuickAddons.IconDialog {
         id: commandIconDialog
         onIconNameChanged: currentIcon = iconName || "run-build"
@@ -263,3 +439,4 @@ Item {
         }
     }
 }
+*/

@@ -28,11 +28,8 @@ function loop(object,callback) {
 
 function defaultCommandObject() {
     return {
-        "icon": 'run-build',
-        "label": '',
-        "command": 'ls ~',
-        'outputFormat': 'auto',
-        "schedule": 5000
+        "label": 'ls.home',
+        "command": 'ls ~'
     }
 }
 
