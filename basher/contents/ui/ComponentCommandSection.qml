@@ -26,6 +26,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 import QtProcess 0.1
 
+import "../code/utility.js" as Utility
+
 Component {
     
     Item {
@@ -40,6 +42,7 @@ Component {
         property int interval: 5000
         property string command: ""
         property string commandEscaped: command.replace(/(\r\n|\n|\r)/gm,"\\n");
+        property string outputFormat: "auto" // text, html, auto
         
         Layout.alignment: Qt.AlignTop
         Layout.preferredWidth: parent.width
@@ -146,7 +149,8 @@ Component {
                                 //wrapMode: TextEdit.Wrap
                                 
                                 //readOnly:true
-
+                                textFormat: root.outputFormat == 'auto' ? Text.AutoText : ((root.outputFormat == 'html') ? Text.RichText : Text.PlainText)
+                                //(Utility.isHTML(text) ? Text.RichText : Text.AutoText)
                                 text:  ""
                             }
                         }

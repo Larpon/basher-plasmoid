@@ -120,9 +120,10 @@ Item {
                 "label": 'Home',
                 "command": '\
                     . ~/.config/basher-plasmoid/varset.sh;\
-                    printf "<b>$ENV_USER@$ENV_HOST</b> ($ENV_BITS) up $ENV_UPTIME";\
-                    printf "<br>$ENV_OS $ENV_ARCH $ENV_OS_VERSION";\
+                    printf "<b>$ENV_USER</b><font color=\"green\">@</font><b>$ENV_HOST</b> ($ENV_BITS) up $ENV_UPTIME\n";\
+                    printf "<br/>$ENV_OS $ENV_ARCH $ENV_OS_VERSION";\
                     ',
+                "outputFormat": 'html',
                 "schedule": 60000
             }
             list.push(co)
@@ -199,9 +200,12 @@ Item {
                 'interval':cmd.schedule,
                 'command':cmd.command,
                 'headerIcon': cmd.icon,
-                'headerText': cmd.label
+                'headerText': cmd.label,
                 //'headerText': cmd.command.replace(/(\r\n|\n|\r)/gm,"\\n")
             }
+            
+            if('outputFormat' in cmd)
+                attributes.outputFormat = cmd.outputFormat;
             
             var commandSection = commandSectionComponent.createObject(sectionContainer, attributes)
             if (commandSection == null) { // Error Handling

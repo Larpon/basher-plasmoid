@@ -31,6 +31,7 @@ function defaultCommandObject() {
         "icon": 'run-build',
         "label": '',
         "command": 'ls ~',
+        'outputFormat': 'auto',
         "schedule": 5000
     }
 }
@@ -109,4 +110,13 @@ function bytesToHuman(b) {
         return (((((b/1024)/1024)/1024)/1024)/1024).toFixed(2)+" PB"
     if(b >= 1e18)
         return ((((((b/1024)/1024)/1024)/1024)/1024)/1024).toFixed(2)+" EB"
+}
+
+function isHTML(string) {
+    var match_html_regex = /^(?:<(\w+)(?:(?:\s+\w+(?:\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)>[^<>]*<\/\1+\s*>|<\w+(?:(?:\s+\w+(?:\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)\/>|<!--.*?-->|[^<>]+)*$/
+    return match_html_regex.test(string)
+}
+
+function escapeHTML(code) {
+    return code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
