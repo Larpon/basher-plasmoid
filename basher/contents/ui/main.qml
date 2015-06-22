@@ -158,7 +158,7 @@ Item {
             co = {
                 "icon": 'list-add',
                 "label": 'Servers up',
-                "command": 'for host in localhost picore bitcore.it; do tmp=$(ping -q -c 1 -W 1 "$host" 2>/dev/null); if [ $? -eq 0 ]; then echo "$host is up"; else echo "$host is down"; fi; done',
+                "command": 'for host in picore bitcore.it; do tmp=$(ping -q -c 1 -W 1 "$host" 2>/dev/null); if [ $? -eq 0 ]; then echo "$host is up"; else echo "$host is down"; fi; done',
                 "schedule": 10000
             }
             list.push(co)
