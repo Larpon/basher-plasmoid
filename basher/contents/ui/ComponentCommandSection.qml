@@ -24,7 +24,7 @@ import QtGraphicalEffects 1.0
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-import QtProcess 0.1
+import QmlProcess 0.1
 
 import "../code/utility.js" as Utility
 

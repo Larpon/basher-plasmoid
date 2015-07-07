@@ -18,7 +18,7 @@
 
 import QtQuick 2.1
 
-import QtProcess 0.1
+import QmlProcess 0.1
 
 Component {
     
